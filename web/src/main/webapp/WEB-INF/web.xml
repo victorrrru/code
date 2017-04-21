@@ -23,7 +23,7 @@
     <!--初始化spring容器-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:applicationContext-dao.xml</param-value>
+        <param-value>classpath*:applicationContext-user.xml</param-value>
     </context-param>
 
     <servlet-mapping>

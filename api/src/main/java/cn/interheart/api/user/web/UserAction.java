@@ -1,4 +1,4 @@
-package cn.interheart.api.web;
+package cn.interheart.api.user.web;
 
 import cn.com.iotrust.common.ValidatorException;
 import cn.com.iotrust.common.mvc.ValidatorUtil;
@@ -6,8 +6,8 @@ import cn.com.iotrust.common.mvc.bind.annotation.FormModel;
 import cn.com.iotrust.common.mybatis.criteria.Criteria;
 import cn.com.iotrust.common.mybatis.criteria.Sort;
 import cn.com.iotrust.common.mybatis.result.Pager;
-import cn.interheart.api.entity.User;
-import cn.interheart.api.service.UserService;
+import cn.interheart.api.user.entity.User;
+import cn.interheart.api.user.service.UserService;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
-import cn.interheart.api.service.UserServiceExt;
+import cn.interheart.api.user.service.UserServiceExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

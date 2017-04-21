@@ -1,10 +1,10 @@
-package cn.interheart.api.service;
+package cn.interheart.api.user.service;
 
 import cn.com.iotrust.common.ServiceException;
 import cn.com.iotrust.common.mybatis.criteria.Criteria;
 import cn.com.iotrust.common.mybatis.result.Pager;
-import cn.interheart.api.entity.User;
-import cn.interheart.api.mapper.UserMapper;
+import cn.interheart.api.user.entity.User;
+import cn.interheart.api.user.mapper.UserMapper;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.Resource;

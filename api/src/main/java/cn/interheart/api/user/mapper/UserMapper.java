@@ -1,7 +1,7 @@
-package cn.interheart.api.mapper;
+package cn.interheart.api.user.mapper;
 
 import cn.com.iotrust.common.mybatis.criteria.Criteria;
-import cn.interheart.api.entity.User;
+import cn.interheart.api.user.entity.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

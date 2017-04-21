@@ -1,8 +1,8 @@
-package cn.interheart.api.service;
+package cn.interheart.api.user.service;
 
 import cn.com.iotrust.common.ServiceException;
-import cn.interheart.api.entity.User;
-import cn.interheart.api.mapper.UserMapper;
+import cn.interheart.api.user.entity.User;
+import cn.interheart.api.user.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

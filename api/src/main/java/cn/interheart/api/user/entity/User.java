@@ -1,4 +1,4 @@
-package cn.interheart.api.entity;
+package cn.interheart.api.user.entity;
 
 import java.io.Serializable;
 import java.util.Date;
