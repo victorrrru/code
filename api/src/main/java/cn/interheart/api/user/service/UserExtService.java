@@ -13,19 +13,12 @@ import java.io.Serializable;
  * @since 2017-04-18 17:05:48
  */
 @Service("userServiceExt")
-public class UserServiceExt implements Serializable {
+public class UserExtService implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	@Resource
-	private UserMapper userMapper;
 
-	public void add(User entity) {
-		try {
-			userMapper.insertSelective(entity);
-		}catch (Exception e) {
-			throw new ServiceException(e.getMessage(),e);
-		}
-	}
+
+
 
 }

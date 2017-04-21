@@ -8,6 +8,8 @@ import cn.interheart.api.user.mapper.UserMapper;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.Resource;
+
+import cn.interheart.api.user.mapper.UserExtMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,24 @@ public class UserService implements Serializable {
 
 	@Resource
 	private UserMapper userMapper;
+	@Resource
+	private UserExtMapper userExtMapper;
+
+	public void add(User entity) {
+		try {
+			userMapper.insertSelective(entity);
+		}catch (Exception e) {
+			throw new ServiceException(e.getMessage(),e);
+		}
+	}
+
+	public User findByUsername(String username) {
+		try {
+			return userExtMapper.selectByUsername(username);
+		}catch (Exception e) {
+			throw new ServiceException(e.getMessage(),e);
+		}
+	}
 
 	public void insert(User entity) throws ServiceException {
 		try {

@@ -6,6 +6,7 @@ import cn.com.iotrust.common.mvc.bind.annotation.FormModel;
 import cn.com.iotrust.common.mybatis.criteria.Criteria;
 import cn.com.iotrust.common.mybatis.criteria.Sort;
 import cn.com.iotrust.common.mybatis.result.Pager;
+import cn.interheart.api.common.ResultDto;
 import cn.interheart.api.user.entity.User;
 import cn.interheart.api.user.service.UserService;
 
@@ -15,7 +16,8 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
-import cn.interheart.api.user.service.UserServiceExt;
+import cn.interheart.api.user.service.UserExtService;
+import cn.interheart.api.user.web.bo.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,28 +40,86 @@ public class UserAction {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private UserServiceExt userServiceExt;
+	private UserExtService userExtServicE;
 
-	/**
+	/*
 	 * 注册
+	 *参数定义：	username
+	 * 			gendar
+	 * 			telephone
+	 * 			birthday
+	 *code定义：0：注册成功
+	 * 			1：用户已注册
+	 * 			-1：接口异常，注册失败
+	 *
 	 */
 	@RequestMapping(value = "/userregister",method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public Object userRegister(@RequestBody User param) {
-		String username = param.getUsername();
-		String gendar = param.getGendar();
-		String telephone = param.getTelephone();
-		Date birthday = param.getBirthday();
+	public Object userRegister(@RequestBody UserDto param) {
+		ResultDto result = new ResultDto();
+		result.setMsg("用户注册");
+		try {
+			String username = param.getUsername();
+			String password = param.getPassword();
+			String gendar = param.getGendar();
+			String telephone = param.getTelephone();
+			Date birthday = param.getBirthday();
+			User userInfo = userService.findByUsername(username);
+			if (userInfo != null) {
+				result.setCode("1");
+				result.setMsg("用户已注册");
+				return result;
+			}
+			User user = new User();
+			user.setUsername(username);
+			user.setPassword(password);
+			user.setGendar(gendar);
+			user.setTelephone(telephone);
+			user.setBirthday(birthday);
 
-		User user = new User();
-		user.setUsername(username);
-		user.setGendar(gendar);
-		user.setTelephone(telephone);
-		user.setBirthday(birthday);
+			userService.add(user);
+			result.setCode("0");
+			result.setMsg("注册成功");
+		}catch (Exception e) {
+			result.setCode("-1");
+			result.setMsg(e.getMessage());
+			logger.error(e.getMessage(),e);
+		}
 
-		userServiceExt.add(user);
-		return "success";
+		return result;
 	}
+
+
+	@RequestMapping(value = "/userlogin", method = RequestMethod.POST,produces = "application/json")
+	@ResponseBody
+	public Object userLogin(@RequestBody UserDto param) {
+		ResultDto result = new ResultDto();
+		result.setMsg("用户登录");
+		try {
+			String username = param.getUsername();
+			String password = param.getPassword();
+			User userinfo = userService.findByUsername(username);
+			if (userinfo != null) {
+				if (password.equals(userinfo.getPassword())) {
+					result.setData(userinfo);
+					result.setCode("0");
+					result.setMsg("登录成功");
+				}else {
+					result.setCode("1");
+					result.setMsg("用户密码错误");
+				}
+			}else {
+				result.setCode("2");
+				result.setMsg("该用户不存在");
+			}
+		}catch (Exception e) {
+			result.setCode("-1");
+			result.setMsg(e.getMessage());
+			logger.error(e.getMessage(),e);
+		}
+		return result;
+	}
+
 
 	/**
 	 * 列表页面
@@ -143,9 +203,9 @@ public class UserAction {
 	/**
 	 * 修改保存
 	 */
-	@RequestMapping(value = "/useredit", method=RequestMethod.POST)
+	@RequestMapping(value = "/useredit", method=RequestMethod.POST,produces = "application/json")
 	@ResponseBody
-	public Object doEdit(@FormModel("user") User user) {
+	public Object doEdit(@RequestBody  User user) {
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		try {
 			ValidatorUtil.validate(user);

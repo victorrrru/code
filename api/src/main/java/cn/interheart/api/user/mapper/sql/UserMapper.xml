@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.interheart.api.user.mapper.UserMapper" >
-	<!-- 实体类 - 数据库映射 2017-04-18 17:05:48. -->
+	<!-- 实体类 - 数据库映射 2017-04-21 15:18:18. -->
 	<resultMap id="BaseResultMap" type="cn.interheart.api.user.entity.User" >
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="username" property="username" jdbcType="VARCHAR" />
@@ -10,14 +10,16 @@
 		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
 		<result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
 		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="createdon" property="createdon" jdbcType="TIMESTAMP" />
+		<result column="modifiedon" property="modifiedon" jdbcType="TIMESTAMP" />
 	</resultMap>
 
-	<!-- 用于 SELECT 语句的所有字段  2017-04-18 17:05:48. -->
+	<!-- 用于 SELECT 语句的所有字段  2017-04-21 15:18:18. -->
 	<sql id="Base_Column_List" >
-		id, username, password, gendar, telephone, birthday, remark
+		id, username, password, gendar, telephone, birthday, remark, createdon, modifiedon
 	</sql>
 
-	<!-- 按主键查询 2017-04-18 17:05:48. -->
+	<!-- 按主键查询 2017-04-21 15:18:18. -->
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
 		select 
 		<include refid="Base_Column_List" />
@@ -25,27 +27,26 @@
 		where id = #{id,jdbcType=INTEGER}
 	</select>
 
-	<!-- 按主键删除 2017-04-18 17:05:48. -->
+	<!-- 按主键删除 2017-04-21 15:18:18. -->
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
 		delete from user
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
 
-	<!-- 插入 - 全字段保存 2017-04-18 17:05:48. -->
+	<!-- 插入 - 全字段保存 2017-04-21 15:18:18. -->
 	<insert id="insert" parameterType="cn.interheart.api.user.entity.User" >
 		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 		insert into user (username, password, gendar, 
-			telephone, birthday, remark
-			)
+			telephone, birthday, remark, 
+			createdon, modifiedon)
 		values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{gendar,jdbcType=VARCHAR}, 
-			#{telephone,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
-			)
+			#{telephone,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+			#{createdon,jdbcType=TIMESTAMP}, #{modifiedon,jdbcType=TIMESTAMP})
 	</insert>
 
-
-	<!-- 插入 - 仅保存给定实体类中非null的字段 2017-04-18 17:05:48. -->
+	<!-- 插入 - 仅保存给定实体类中非null的字段 2017-04-21 15:18:18. -->
 	<insert id="insertSelective" parameterType="cn.interheart.api.user.entity.User" >
 		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
 			SELECT LAST_INSERT_ID()
@@ -70,6 +71,12 @@
 			<if test="remark != null" >
 				remark,
 			</if>
+			<if test="createdon != null" >
+				createdon,
+			</if>
+			<if test="modifiedon != null" >
+				modifiedon,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="username != null" >
@@ -90,10 +97,16 @@
 			<if test="remark != null" >
 				#{remark,jdbcType=VARCHAR},
 			</if>
+			<if test="createdon != null" >
+				#{createdon,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifiedon != null" >
+				#{modifiedon,jdbcType=TIMESTAMP},
+			</if>
 		</trim>
 	</insert>
 
-	<!-- 按主键更新 - 仅更新给定实体类中非null的字段 2017-04-18 17:05:48. -->
+	<!-- 按主键更新 - 仅更新给定实体类中非null的字段 2017-04-21 15:18:18. -->
 	<update id="updateByPrimaryKeySelective" parameterType="cn.interheart.api.user.entity.User" >
 		update user
 		<set >
@@ -115,11 +128,17 @@
 			<if test="remark != null" >
 				remark = #{remark,jdbcType=VARCHAR},
 			</if>
+			<if test="createdon != null" >
+				createdon = #{createdon,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifiedon != null" >
+				modifiedon = #{modifiedon,jdbcType=TIMESTAMP},
+			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 
-	<!-- 按主键更新 - 全更新 2017-04-18 17:05:48. -->
+	<!-- 按主键更新 - 全更新 2017-04-21 15:18:18. -->
 	<update id="updateByPrimaryKey" parameterType="cn.interheart.api.user.entity.User" >
 		update user
 		set username = #{username,jdbcType=VARCHAR},
@@ -127,11 +146,13 @@
 			gendar = #{gendar,jdbcType=VARCHAR},
 			telephone = #{telephone,jdbcType=VARCHAR},
 			birthday = #{birthday,jdbcType=TIMESTAMP},
-			remark = #{remark,jdbcType=VARCHAR}
+			remark = #{remark,jdbcType=VARCHAR},
+			createdon = #{createdon,jdbcType=TIMESTAMP},
+			modifiedon = #{modifiedon,jdbcType=TIMESTAMP}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 
-	<!-- 按 Criteria 条件查询, 支持分页 2017-04-18 17:05:48. -->
+	<!-- 按 Criteria 条件查询, 支持分页 2017-04-21 15:18:18. -->
 	<select id="selectByCriteria" resultMap="BaseResultMap" parameterType="Criteria" >
 		select
 		<include refid="Base_Column_List" />
