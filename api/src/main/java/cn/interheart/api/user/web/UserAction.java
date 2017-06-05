@@ -45,6 +45,7 @@ public class UserAction {
 	/*
 	 * 注册
 	 *参数定义：	username
+	 * 			password
 	 * 			gendar
 	 * 			telephone
 	 * 			birthday
@@ -89,6 +90,17 @@ public class UserAction {
 		return result;
 	}
 
+	/*
+	*用户登录
+	* 参数定义:
+	* 		username
+	* 		password
+	*	code定义：
+	*		0 登录成功
+	* 		1 密码错误
+	* 		2 用户不存在
+	*		3 接口异常
+	 */
 
 	@RequestMapping(value = "/userlogin", method = RequestMethod.POST,produces = "application/json")
 	@ResponseBody
