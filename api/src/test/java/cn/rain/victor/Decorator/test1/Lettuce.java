@@ -1,22 +1,21 @@
-package cn.rain.victor.Decorator;
+package cn.rain.victor.Decorator.test1;
 
 /**
  * Created by victorrrr on 2017/6/7.
  */
 public class Lettuce extends AbstractCodiment {
-    Hamburger hamburger;
 
     public Lettuce(Hamburger hamburger) {
-        this.hamburger = hamburger;
+        super(hamburger);
     }
 
     @Override
     public Double getPrice() {
-        return hamburger.getPrice() + 1.0;
+        return super.getPrice() + 1.0;
     }
 
     @Override
     public String getName() {
-        return hamburger.getName() + "加生菜";
+        return super.getName() + "加生菜";
     }
 }

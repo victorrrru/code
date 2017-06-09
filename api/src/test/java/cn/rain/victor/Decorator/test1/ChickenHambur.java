@@ -1,9 +1,9 @@
-package cn.rain.victor.Decorator;
+package cn.rain.victor.Decorator.test1;
 
 /**
  * Created by victorrrr on 2017/6/7.
  */
-public class ChickenHambur extends Hamburger{
+public class ChickenHambur implements Hamburger{
 
     @Override
     public String getName() {

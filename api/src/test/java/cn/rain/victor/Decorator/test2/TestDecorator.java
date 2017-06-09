@@ -1,4 +1,10 @@
-import cn.rain.victor.Decorator.*;
+package cn.rain.victor.Decorator.test2;
+
+import cn.rain.victor.Decorator.test1.ChickenHambur;
+import cn.rain.victor.Decorator.test1.Hamburger;
+import cn.rain.victor.Decorator.test1.Ketchup;
+import cn.rain.victor.Decorator.test1.Lettuce;
+import cn.rain.victor.Decorator.test1.Pepper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

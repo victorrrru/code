@@ -1,4 +1,4 @@
-package cn.rain.victor.Decorator;
+package cn.rain.victor.Decorator.test2;
 
 /**
  * Created by victorrrr on 2017/6/7.
